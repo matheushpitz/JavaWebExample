@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Cadastrar Item</title>
+    </h:head>
+    <h:body>    
+        <h1>Cadastro de Item</h1>
+        <h:form id="form-item">
+            <p:outputLabel for="descricao" value="Descrição"/>
+            <br/>
+            <p:inputText id="descricao" value="#{cadastroItemController.descricao}"/>
+            <br/>
+            <br/>
+            <p:outputLabel for="valor" value="Valor"/>
+            <br/>
+            <p:inputText id="valor" value="#{cadastroItemController.valor}"/>
+            <br/>
+            <br/>
+            <p:commandButton  value = "Cadastrar item" actionListener="#{cadastroItemController.cadastrar}" update=":listItems form-item"/>
+        </h:form>
+        <br/>
+        <br/>        
+        <p:dataTable id="listItems" var="item" value="#{cadastroItemController.items}">
+            <p:column headerText="ID">
+                <h:outputText value="#{item.oid}"/>
+            </p:column>
+             <p:column headerText="Descrição">
+                <h:outputText value="#{item.descricao}"/>
+            </p:column>
+             <p:column headerText="Valor">
+                <h:outputText value="#{item.valor}"/>
+            </p:column>
+        </p:dataTable>        
+    </h:body>
+</html>
+

@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Cadastro Lançamento</title>
+    </h:head>
+    <h:body>
+        <h1>Cadastro de Lançamento</h1>
+        <h:form id="form-lancamento">
+            <p:outputLabel for="dt-inicial" value="Data Inicial"/>
+            <br/>
+            <p:calendar id="dt-inicial" pattern="MM/dd/yyyy HH:mm:ss" value="#{cadastroLancamentoController.dtInicial}"/>
+            <br/>
+            <br/>
+            <p:outputLabel for="dt-final" value="Data Final"/>
+            <br/>
+            <p:calendar id="dt-final" pattern="MM/dd/yyyy HH:mm:ss" value="#{cadastroLancamentoController.dtFinal}"/>
+            <br/>
+            <br/>
+            <p:outputLabel for="obs" value="Observação"/>
+            <br/>
+            <p:inputTextarea id="obs" counter="display" maxlength="1000" counterTemplate="{0} caracteres restantes." value="#{cadastroLancamentoController.observacao}"/>
+            <br/>
+            <h:outputText id="display" />     
+            <!--
+            <br/>
+            <br/>
+            <p:outputLabel for="valor" value="Valor"/>
+            <br/>
+            <p:inputText id="valor" value="#{cadastroLancamentoController.valor}"/>
+            -->
+            <br/>
+            <br/>
+            <p:commandButton value="Cadastrar" actionListener="#{cadastroLancamentoController.cadastrar}" update=":listLancamentos form-lancamento"/>
+        </h:form>
+        <br/>
+        <h2>Todos os Lançamentos</h2>
+        <p:dataTable id="listLancamentos" var="lancamento" value="#{cadastroLancamentoController.lancamentos}">
+            <p:column headerText="ID">
+                <h:outputText value="#{lancamento.oid}"/>
+            </p:column>
+            <p:column headerText="Data Inicial">
+                <h:outputText value="#{lancamento.dt_inicial}"/>
+            </p:column>
+            <p:column headerText="Data Final">
+                <h:outputText value="#{lancamento.dt_final}"/>
+            </p:column>
+            <p:column headerText="Observação">
+                <h:outputText value="#{lancamento.observacao}"/>
+            </p:column><p:column headerText="Valor">
+                <h:outputText value="#{lancamento.vl_total}"/>
+            </p:column>            
+        </p:dataTable>
+        <br/>
+        <h2>Todos os Itens</h2>
+        <p:dataTable id="listItems" var="item" value="#{cadastroLancamentoController.items}">
+            <p:column headerText="ID">
+                <h:outputText value="#{item.oid}"/>
+            </p:column>
+             <p:column headerText="Descrição">
+                <h:outputText value="#{item.descricao}"/>
+            </p:column>
+             <p:column headerText="Valor">
+                <h:outputText value="#{item.valor}"/>
+            </p:column>
+        </p:dataTable> 
+        <br/>
+        <h1>Vincular Lançamentos - Itens</h1>
+        <h:form>
+            <p:outputLabel for="id-lancamento" value="ID do Lançamento"/>
+            <br/>
+            <p:inputText id="id-lancamento" value="#{cadastroLancamentoController.idLancamento}" />            
+            <p:commandButton value="Consultar Itens Vinculados" update=":listLancamentoItems :valor-total"/>                
+        </h:form>
+        <br/>
+        <h2>Itens Vinculados</h2>
+        <p:dataTable id="listLancamentoItems" var="item" value="#{cadastroLancamentoController.lancamentosItems}">
+            <p:column headerText="ID">
+                <h:outputText value="#{item.oid_item.oid}"/>
+            </p:column>
+             <p:column headerText="Descrição">
+                <h:outputText value="#{item.oid_item.descricao}"/>
+            </p:column>
+             <p:column headerText="Valor">
+                <h:outputText value="#{item.oid_item.valor}"/>
+            </p:column>            
+             <p:column headerText="Deletar">
+                <h:form>
+                    <p:commandButton value="X" actionListener="#{cadastroLancamentoController.removeLancamentoItem(item)}" update=":listLancamentoItems :valor-total"/>
+                </h:form>
+            </p:column>
+        </p:dataTable>
+        <br/>
+        <h:outputText id="valor-total" value="Total = #{cadastroLancamentoController.valorTotalLancamento}"/>
+        <br/>
+        <h2>Vincular Item</h2>
+        <h:form>
+            <p:outputLabel for="id-item" value="ID do Item"/>
+            <br/>
+            <p:inputText id="id-item" value="#{cadastroLancamentoController.idItem}" />            
+            <p:commandButton value="Vincular Item" actionListener="#{cadastroLancamentoController.vinculaItem}" update=":listLancamentoItems :valor-total"/>                
+        </h:form>
+    </h:body>
+</html>
+
